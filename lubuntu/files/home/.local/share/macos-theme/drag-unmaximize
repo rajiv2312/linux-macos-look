@@ -1,0 +1,156 @@
+#!/usr/bin/env python3
+# macOS-style "drag a maximised window's title bar to pull it out".
+# Openbox refuses _NET_WM_MOVERESIZE for maximised windows, so apps that draw
+# their own header bar (GNOME Terminal etc.) can't be dragged once maximised.
+# This watches for those requests, unmaximises the window at its last normal
+# size under the pointer, and re-issues the move so the drag continues.
+import ctypes, time
+
+x11 = ctypes.CDLL("libX11.so.6")
+x11.XOpenDisplay.restype = ctypes.c_void_p
+x11.XInternAtom.restype = ctypes.c_ulong
+x11.XDefaultRootWindow.restype = ctypes.c_ulong
+
+d = ctypes.c_void_p(x11.XOpenDisplay(None))
+root = x11.XDefaultRootWindow(d)
+SCR_W = x11.XDisplayWidth(d, 0)
+SCR_H = x11.XDisplayHeight(d, 0)
+
+
+def atom(name):
+    return x11.XInternAtom(d, name.encode(), 0)
+
+
+A_MOVERESIZE = atom("_NET_WM_MOVERESIZE")
+A_STATE = atom("_NET_WM_STATE")
+A_MAXV = atom("_NET_WM_STATE_MAXIMIZED_VERT")
+A_MAXH = atom("_NET_WM_STATE_MAXIMIZED_HORZ")
+A_MOVERESIZE_WINDOW = atom("_NET_MOVERESIZE_WINDOW")
+CONFIGURE_NOTIFY = 22
+CLIENT_MESSAGE = 33
+MOVE = 8
+CANCEL = 11
+SUBSTRUCTURE_NOTIFY = 1 << 19
+SUBSTRUCTURE_REDIRECT = 1 << 20
+
+
+class XClientMessageEvent(ctypes.Structure):
+    _fields_ = [("type", ctypes.c_int), ("serial", ctypes.c_ulong),
+                ("send_event", ctypes.c_int), ("display", ctypes.c_void_p),
+                ("window", ctypes.c_ulong), ("message_type", ctypes.c_ulong),
+                ("format", ctypes.c_int), ("data", ctypes.c_long * 5)]
+
+
+class XConfigureEvent(ctypes.Structure):
+    _fields_ = [("type", ctypes.c_int), ("serial", ctypes.c_ulong),
+                ("send_event", ctypes.c_int), ("display", ctypes.c_void_p),
+                ("event", ctypes.c_ulong), ("window", ctypes.c_ulong),
+                ("x", ctypes.c_int), ("y", ctypes.c_int),
+                ("width", ctypes.c_int), ("height", ctypes.c_int),
+                ("border_width", ctypes.c_int), ("above", ctypes.c_ulong),
+                ("override_redirect", ctypes.c_int)]
+
+
+class XEvent(ctypes.Union):
+    _fields_ = [("type", ctypes.c_int), ("xclient", XClientMessageEvent),
+                ("xconfigure", XConfigureEvent), ("pad", ctypes.c_long * 24)]
+
+
+def send(win, msg_type, *data):
+    e = XEvent()
+    c = e.xclient
+    c.type = CLIENT_MESSAGE
+    c.send_event = 1
+    c.window = win
+    c.message_type = msg_type
+    c.format = 32
+    for i, v in enumerate(data):
+        c.data[i] = v
+    x11.XSendEvent(d, ctypes.c_ulong(root), 0,
+                   SUBSTRUCTURE_REDIRECT | SUBSTRUCTURE_NOTIFY, ctypes.byref(e))
+    x11.XFlush(d)
+
+
+def maximized(win):
+    typ, fmt = ctypes.c_ulong(), ctypes.c_int()
+    n, after = ctypes.c_ulong(), ctypes.c_ulong()
+    prop = ctypes.POINTER(ctypes.c_ulong)()
+    if x11.XGetWindowProperty(d, ctypes.c_ulong(win), ctypes.c_ulong(A_STATE), 0, 64, 0,
+                              ctypes.c_ulong(4), ctypes.byref(typ), ctypes.byref(fmt),
+                              ctypes.byref(n), ctypes.byref(after), ctypes.byref(prop)) != 0 or not prop:
+        return False
+    states = {prop[i] for i in range(n.value)}
+    x11.XFree(prop)
+    return A_MAXV in states and A_MAXH in states
+
+
+def geometry(win):
+    rx, ry = ctypes.c_int(), ctypes.c_int()
+    child = ctypes.c_ulong()
+    x11.XTranslateCoordinates(d, ctypes.c_ulong(win), ctypes.c_ulong(root), 0, 0,
+                              ctypes.byref(rx), ctypes.byref(ry), ctypes.byref(child))
+    r = ctypes.c_ulong()
+    gx, gy = ctypes.c_int(), ctypes.c_int()
+    w, h, bw, depth = ctypes.c_uint(), ctypes.c_uint(), ctypes.c_uint(), ctypes.c_uint()
+    x11.XGetGeometry(d, ctypes.c_ulong(win), ctypes.byref(r), ctypes.byref(gx), ctypes.byref(gy),
+                     ctypes.byref(w), ctypes.byref(h), ctypes.byref(bw), ctypes.byref(depth))
+    return rx.value, ry.value, w.value, h.value
+
+
+def toplevel(win):
+    """The window manager's frame for win (the ancestor that is a child of root)."""
+    rt, parent = ctypes.c_ulong(), ctypes.c_ulong()
+    kids, n = ctypes.POINTER(ctypes.c_ulong)(), ctypes.c_uint()
+    while True:
+        if not x11.XQueryTree(d, ctypes.c_ulong(win), ctypes.byref(rt), ctypes.byref(parent),
+                              ctypes.byref(kids), ctypes.byref(n)):
+            return win
+        if kids:
+            x11.XFree(kids)
+        if parent.value in (0, root):
+            return win
+        win = parent.value
+
+
+def looks_maximized(w, h):
+    return w >= SCR_W - 40 and h >= SCR_H - 120
+
+
+normal_size = {}   # frame window -> last size seen while not maximised
+
+x11.XSelectInput(d, ctypes.c_ulong(root), SUBSTRUCTURE_NOTIFY)
+ev = XEvent()
+while True:
+    x11.XNextEvent(d, ctypes.byref(ev))
+    if ev.type == CONFIGURE_NOTIFY:
+        c = ev.xconfigure
+        if c.event == root and not looks_maximized(c.width, c.height) and c.width > 50 and c.height > 50:
+            normal_size[c.window] = (c.width, c.height)
+        continue
+    if ev.type != CLIENT_MESSAGE:
+        continue
+    c = ev.xclient
+    if c.message_type != A_MOVERESIZE or c.data[2] != MOVE:
+        continue
+    win, px, py, button = c.window, c.data[0], c.data[1], c.data[3] or 1
+    if not maximized(win):
+        continue
+    ox, oy, ow, oh = geometry(win)
+    frac_x = (px - ox) / ow if ow else 0.5
+    off_y = py - oy
+    w, h = normal_size.get(toplevel(win), (SCR_W * 3 // 5, SCR_H * 3 // 5))
+    # Openbox has already started a move for the maximised window that keeps
+    # re-applying the full-screen size, so cancel it before unmaximising
+    send(win, A_MOVERESIZE, px, py, CANCEL, button, 1)
+    x11.XSync(d, 0)
+    time.sleep(0.03)
+    # unmaximise, then put it at its normal size under the pointer, then continue the drag
+    send(win, A_STATE, 0, A_MAXV, A_MAXH, 1)
+    x11.XSync(d, 0)
+    time.sleep(0.08)
+    new_x = max(0, int(px - w * frac_x))
+    new_y = max(0, py - off_y)
+    send(win, A_MOVERESIZE_WINDOW, (0xF << 8) | (2 << 12), new_x, new_y, w, h)
+    x11.XSync(d, 0)
+    time.sleep(0.05)
+    send(win, A_MOVERESIZE, px, py, MOVE, button, 1)

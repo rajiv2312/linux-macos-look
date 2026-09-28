@@ -1,0 +1,36 @@
+/* macOS light-mode notification cards */
+Notification {
+    background-color: rgba(246, 246, 246, 97%);
+    border: 1px solid rgba(0, 0, 0, 12%);
+    border-radius: 12px;
+    margin: 0px;
+}
+
+QLabel {
+    color: #1d1d1f;
+}
+
+#appLabel {
+    color: #6e6e73;
+    font-style: normal;
+    font-weight: 600;
+}
+
+#closeButton {
+    qproperty-icon: url(lxqt-runner/close-light.svg);
+}
+
+QToolButton {
+    margin: 0px;
+    border: none;
+    border-radius: 6px;
+    color: #1d1d1f;
+}
+
+QToolButton:hover {
+    background: rgba(0, 0, 0, 8%);
+}
+
+QToolButton:pressed {
+    background: rgba(0, 0, 0, 15%);
+}

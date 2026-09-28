@@ -1,0 +1,80 @@
+/* macOS Launchpad look for rofi: full-screen dimmed grid, pill search field */
+configuration {
+    modi: "drun";
+    show-icons: true;
+    icon-theme: "WhiteSur";
+    drun-display-format: "{name}";
+    display-drun: "";
+    font: "Inter 11";
+    hover-select: true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+    click-to-exit: true;
+}
+
+* {
+    background-color: transparent;
+    text-color: #ffffff;
+}
+
+window {
+    fullscreen: true;
+    background-color: #202024;
+    background-image: url("~/.local/share/macos-theme/launchpad-bg.jpg", both);
+    padding: 48px 10% 130px 10%;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing: 44px;
+}
+
+inputbar {
+    children: [ entry ];
+    margin: 0px 38%;
+    padding: 7px 14px;
+    border: 1px;
+    border-radius: 9px;
+    border-color: rgba(255, 255, 255, 22%);
+    background-color: rgba(255, 255, 255, 14%);
+}
+
+entry {
+    placeholder: "Search";
+    placeholder-color: rgba(255, 255, 255, 55%);
+    horizontal-align: 0.5;
+    cursor: text;
+}
+
+listview {
+    columns: 7;
+    lines: 4;
+    spacing: 28px;
+    fixed-columns: true;
+    fixed-height: true;
+    scrollbar: false;
+    flow: horizontal;
+}
+
+element {
+    orientation: vertical;
+    padding: 12px 6px;
+    spacing: 10px;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+element selected.normal {
+    background-color: rgba(255, 255, 255, 12%);
+}
+
+element-icon {
+    size: 96px;
+    horizontal-align: 0.5;
+    cursor: inherit;
+}
+
+element-text {
+    horizontal-align: 0.5;
+    cursor: inherit;
+}

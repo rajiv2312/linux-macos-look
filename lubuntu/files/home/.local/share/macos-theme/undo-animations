@@ -1,0 +1,8 @@
+#!/bin/sh
+# Undo the macOS window animations: remove picom's user config and let LXQt restart picom
+# with Lubuntu's default config (/etc/xdg/xdg-Lubuntu/picom.conf).
+rm -f "$HOME/.config/picom.conf"
+pkill -x picom
+sleep 3   # lxqt-session restarts picom by itself
+pgrep -x picom >/dev/null || setsid -f picom >/dev/null 2>&1
+sleep 1; pgrep -x picom >/dev/null && echo "Animations removed, picom running as before." || echo "picom is not running - log out and back in."

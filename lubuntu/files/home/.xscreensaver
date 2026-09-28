@@ -1,0 +1,9 @@
+# macOS-style: Flurry screensaver, dark unlock dialog (locking left off, as before)
+mode:		one
+selected:	0
+timeout:	0:10:00
+lock:		False
+dialogTheme:	Dark Gray
+programs:								      \
+  GL: 				flurry --root				    \n\
+

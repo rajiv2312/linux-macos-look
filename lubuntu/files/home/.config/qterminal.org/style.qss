@@ -1,0 +1,2 @@
+/* macOS-style: slightly larger tab titles */
+QTabBar { font-size: 13pt; }

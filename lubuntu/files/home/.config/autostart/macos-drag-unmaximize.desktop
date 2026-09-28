@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Drag to unmaximise
+Comment=macOS-style: drag a maximised window's header bar to pull it out
+Exec=@HOME@/.local/share/macos-theme/drag-unmaximize
+OnlyShowIn=LXQt;
+NoDisplay=true
+Terminal=false

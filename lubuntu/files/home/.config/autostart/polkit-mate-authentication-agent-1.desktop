@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=PolicyKit Authentication Agent (macOS theme: Details hidden)
+Exec=env XDG_CONFIG_HOME=@HOME@/.local/share/macos-theme/polkit-agent-config /usr/libexec/polkit-mate-authentication-agent-1
+NoDisplay=true
+NotShowIn=GNOME;KDE;

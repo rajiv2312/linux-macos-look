@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Launchpad
+Comment=Show all apps in a full-screen grid
+Exec=@HOME@/.local/share/macos-theme/launchpad
+Icon=com.system76.CosmicLauncher
+Terminal=false
+Categories=Utility;
+StartupNotify=false

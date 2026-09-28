@@ -1,0 +1,4 @@
+#!/bin/sh
+# Toggle the macOS-style Launchpad (rofi app grid)
+if pgrep -x rofi >/dev/null; then pkill -x rofi; exit 0; fi
+exec rofi -show drun -theme "$HOME/.local/share/macos-theme/launchpad.rasi"

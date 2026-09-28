@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Global menu bar
+Comment=macOS-style Apple menu and app menus in the top bar
+Exec=env XDG_CONFIG_HOME=@HOME@/.local/share/macos-theme/vala-panel-config vala-panel -p macos-menu
+OnlyShowIn=LXQt;
+NoDisplay=true
+Terminal=false

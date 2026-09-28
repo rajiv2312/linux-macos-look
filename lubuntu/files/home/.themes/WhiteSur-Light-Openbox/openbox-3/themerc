@@ -1,0 +1,117 @@
+# WhiteSur-Light style Openbox theme with macOS traffic-light buttons
+# colours from WhiteSur-Dark (labwc) + macOS button colours
+
+border.width: 1
+padding.width: 10
+padding.height: 5
+window.handle.width: 0
+window.client.padding.width: 0
+window.client.padding.height: 0
+menu.overlap.x: 0
+menu.overlap.y: 0
+
+window.active.border.color: #aaaaaa
+window.inactive.border.color: #c4c4c4
+window.active.client.color: #ffffff
+window.inactive.client.color: #f6f6f6
+window.active.title.separator.color: #cfcfcf
+window.inactive.title.separator.color: #e0e0e0
+
+window.active.title.bg: flat solid
+window.active.title.bg.color: #e8e8e8
+window.inactive.title.bg: flat solid
+window.inactive.title.bg.color: #f6f6f6
+window.active.label.bg: parentrelative
+window.inactive.label.bg: parentrelative
+window.active.label.text.color: #3a3a3a
+window.inactive.label.text.color: #b0b0b0
+window.label.text.justify: center
+
+window.active.handle.bg: flat solid
+window.active.handle.bg.color: #e8e8e8
+window.inactive.handle.bg: flat solid
+window.inactive.handle.bg.color: #f6f6f6
+window.active.grip.bg: flat solid
+window.active.grip.bg.color: #e8e8e8
+window.inactive.grip.bg: flat solid
+window.inactive.grip.bg.color: #f6f6f6
+
+# buttons: no background, only the coloured circle bitmaps
+window.active.button.unpressed.bg: parentrelative
+window.active.button.pressed.bg: parentrelative
+window.active.button.hover.bg: parentrelative
+window.active.button.disabled.bg: parentrelative
+window.active.button.toggled.unpressed.bg: parentrelative
+window.active.button.toggled.pressed.bg: parentrelative
+window.active.button.toggled.hover.bg: parentrelative
+window.inactive.button.unpressed.bg: parentrelative
+window.inactive.button.pressed.bg: parentrelative
+window.inactive.button.hover.bg: parentrelative
+window.inactive.button.disabled.bg: parentrelative
+window.inactive.button.toggled.unpressed.bg: parentrelative
+window.inactive.button.toggled.pressed.bg: parentrelative
+window.inactive.button.toggled.hover.bg: parentrelative
+
+window.active.button.unpressed.image.color: #b5b5b5
+window.active.button.hover.image.color: #9a9a9a
+window.active.button.pressed.image.color: #9a9a9a
+window.active.button.disabled.image.color: #dcdcdc
+window.inactive.button.unpressed.image.color: #d4d4d4
+window.inactive.button.hover.image.color: #b5b5b5
+window.inactive.button.pressed.image.color: #b5b5b5
+window.inactive.button.disabled.image.color: #e6e6e6
+
+window.active.button.close.unpressed.image.color: #ff5f57
+window.active.button.close.hover.image.color: #ff5f57
+window.active.button.close.pressed.image.color: #bf4943
+window.active.button.iconify.unpressed.image.color: #febc2e
+window.active.button.iconify.hover.image.color: #febc2e
+window.active.button.iconify.pressed.image.color: #bf8e22
+window.active.button.max.unpressed.image.color: #28c840
+window.active.button.max.hover.image.color: #28c840
+window.active.button.max.pressed.image.color: #1f9a33
+window.active.button.max.toggled.unpressed.image.color: #28c840
+window.active.button.max.toggled.hover.image.color: #28c840
+window.active.button.max.toggled.pressed.image.color: #1f9a33
+
+# inactive windows: grey circles, colour returns on hover (like macOS)
+window.inactive.button.close.hover.image.color: #ff5f57
+window.inactive.button.iconify.hover.image.color: #febc2e
+window.inactive.button.max.hover.image.color: #28c840
+window.inactive.button.max.toggled.hover.image.color: #28c840
+
+menu.border.width: 1
+menu.border.color: #c8c8c8
+menu.separator.color: #dedede
+menu.separator.width: 1
+menu.separator.padding.width: 6
+menu.separator.padding.height: 3
+menu.title.bg: flat solid
+menu.title.bg.color: #f7f7f7
+menu.title.text.color: #1d1d1f
+menu.title.text.justify: center
+menu.items.bg: flat solid
+menu.items.bg.color: #f7f7f7
+menu.items.text.color: #1d1d1f
+menu.items.disabled.text.color: #a0a0a0
+menu.items.active.bg: flat solid
+menu.items.active.bg.color: #0a84ff
+menu.items.active.text.color: #ffffff
+
+osd.border.width: 1
+osd.border.color: #c8c8c8
+osd.bg: flat solid
+osd.bg.color: #f7f7f7
+osd.label.bg: parentrelative
+osd.label.text.color: #1d1d1f
+osd.hilight.bg: flat solid
+osd.hilight.bg.color: #0a84ff
+osd.unhilight.bg: flat solid
+osd.unhilight.bg.color: #dedede
+osd.button.unpressed.bg: flat solid
+osd.button.unpressed.bg.color: #ececec
+osd.button.pressed.bg: flat solid
+osd.button.pressed.bg.color: #0a84ff
+osd.button.focused.bg: flat solid
+osd.button.focused.bg.color: #dedede
+osd.button.unpressed.*.image.color: #1d1d1f

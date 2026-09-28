@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- macOS-style Apple menu for the vala-panel global menu bar -->
+<interface>
+  <menu id="vala-panel-menu">
+    <section>
+      <item>
+        <attribute name="label">About This Computer</attribute>
+        <attribute name="action">app.launch-id</attribute>
+        <attribute name="target">lxqt-about.desktop</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label">System Settings…</attribute>
+        <attribute name="action">app.launch-id</attribute>
+        <attribute name="target">lxqt-config.desktop</attribute>
+      </item>
+      <item>
+        <attribute name="label">App Store…</attribute>
+        <attribute name="action">app.launch-id</attribute>
+        <attribute name="target">org.kde.discover.desktop</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label">Force Quit…</attribute>
+        <attribute name="action">app.launch-id</attribute>
+        <attribute name="target">qps.desktop</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label">Sleep</attribute>
+        <attribute name="action">app.launch-command</attribute>
+        <attribute name="target">lxqt-leave --suspend</attribute>
+      </item>
+      <item>
+        <attribute name="label">Restart…</attribute>
+        <attribute name="action">app.launch-command</attribute>
+        <attribute name="target">lxqt-leave --reboot</attribute>
+      </item>
+      <item>
+        <attribute name="label">Shut Down…</attribute>
+        <attribute name="action">app.launch-command</attribute>
+        <attribute name="target">lxqt-leave --shutdown</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label">Lock Screen</attribute>
+        <attribute name="action">app.launch-command</attribute>
+        <attribute name="target">xdg-screensaver lock</attribute>
+      </item>
+      <item>
+        <attribute name="label">Log Out @REALNAME@…</attribute>
+        <attribute name="action">app.launch-command</attribute>
+        <attribute name="target">lxqt-leave --logout</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

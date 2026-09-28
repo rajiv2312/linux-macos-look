@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Plank
+Comment=macOS-style dock
+Exec=sh -c "sleep 3; exec plank"
+Icon=plank
+OnlyShowIn=LXQt;
+X-LXQt-Need-Tray=false
+Terminal=false

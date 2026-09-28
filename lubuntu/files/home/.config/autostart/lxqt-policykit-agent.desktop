@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=LXQt PolicyKit Agent (disabled by macOS theme; MATE agent used instead)
+Exec=lxqt-policykit-agent
+OnlyShowIn=LXQt;
+X-LXQt-Module=true
+Hidden=true

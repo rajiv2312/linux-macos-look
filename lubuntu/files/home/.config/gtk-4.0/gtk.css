@@ -1,0 +1,12 @@
+/* macOS theme: default dialog button (Enter) is macOS blue, others stay grey */
+button.default, button.suggested-action, .dialog-action-area button.default {
+    background-image: none;
+    background-color: #007aff;
+    border-color: #0068d9;
+    color: #ffffff;
+    box-shadow: none;
+}
+button.default:hover, button.suggested-action:hover { background-color: #1a87ff; }
+button.default:active, button.suggested-action:active { background-color: #0062cc; }
+button.default label, button.suggested-action label { color: #ffffff; }
+button.default:backdrop, button.suggested-action:backdrop { background-color: #7fb8f7; border-color: #7fb8f7; }
