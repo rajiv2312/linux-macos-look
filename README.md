@@ -1,5 +1,10 @@
 # Linux, dressed as macOS
 
+> **This project has moved to [lubuntu-macos](https://github.com/rajiv2312/lubuntu-macos)**
+> ([website](https://rajiv2312.github.io/lubuntu-macos/)), which adds Wi-Fi/Bluetooth/Sound/Battery menus,
+> a Notification Center, a macOS-style lock screen, Finder's list view and a full change log.
+> This repository keeps the first version (28 September 2026).
+
 A free Lubuntu laptop that looks and feels a lot like my MacBook: menu bar, Dock, Launchpad, Spotlight,
 Finder, traffic-light buttons and a macOS-style login screen.
 
